@@ -8,6 +8,56 @@
   --primary-glow: rgba(139, 92, 246, 0.15);
   --secondary: #d946ef; /* Fuchsia 500 */
   --secondary-glow: rgba(217, 70, 239, 0.15);
+
+  /* Semantic tokens mapping to dark mode defaults */
+  --zinc-950-raw: 9 9 11;
+  --zinc-900-raw: 24 24 27;
+  --zinc-800-raw: 39 39 42;
+  --zinc-700-raw: 63 63 70;
+  
+  --zinc-100-raw: 244 244 245;
+  --zinc-200-raw: 228 228 231;
+  --zinc-300-raw: 212 212 216;
+  --zinc-400-raw: 161 161 170;
+  --zinc-500-raw: 113 113 122;
+  --zinc-600-raw: 82 82 91;
+  
+  --glass-panel-bg: rgba(18, 18, 24, 0.7);
+  --glass-panel-border: rgba(255, 255, 255, 0.06);
+  --glass-panel-border-hover: rgba(255, 255, 255, 0.1);
+  
+  --bg-mesh-opacity: 0.08;
+  --grid-color: rgba(255, 255, 255, 0.015);
+}
+
+.light {
+  --background: #f8fafc; /* Slate 50 */
+  --foreground: #0f172a; /* Slate 900 */
+  
+  --primary: #7c3aed; /* Violet 600 */
+  --primary-glow: rgba(124, 58, 237, 0.08);
+  --secondary: #db2777; /* Pink 600 */
+  --secondary-glow: rgba(219, 39, 119, 0.08);
+  
+  /* Reversing semantic tokens for light theme */
+  --zinc-950-raw: 255 255 255; /* Light Background */
+  --zinc-900-raw: 241 245 249; /* Slate 100 */
+  --zinc-800-raw: 226 232 240; /* Slate 200 */
+  --zinc-700-raw: 203 213 225; /* Slate 300 */
+  
+  --zinc-100-raw: 15 23 42;    /* Slate 900 */
+  --zinc-200-raw: 30 41 59;    /* Slate 800 */
+  --zinc-300-raw: 51 65 85;    /* Slate 700 */
+  --zinc-400-raw: 71 85 105;   /* Slate 600 */
+  --zinc-500-raw: 100 116 139; /* Slate 500 */
+  --zinc-600-raw: 148 163 184; /* Slate 400 */
+  
+  --glass-panel-bg: rgba(255, 255, 255, 0.75);
+  --glass-panel-border: rgba(15, 23, 42, 0.08);
+  --glass-panel-border-hover: rgba(15, 23, 42, 0.15);
+  
+  --bg-mesh-opacity: 0.04;
+  --grid-color: rgba(15, 23, 42, 0.04);
 }
 
 @theme inline {
@@ -17,6 +67,20 @@
   --color-secondary: var(--secondary);
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
+
+  /* Dynamically mapped zinc shades */
+  --color-zinc-955: rgb(var(--zinc-950-raw));
+  --color-zinc-950: rgb(var(--zinc-950-raw));
+  --color-zinc-900: rgb(var(--zinc-900-raw));
+  --color-zinc-800: rgb(var(--zinc-800-raw));
+  --color-zinc-700: rgb(var(--zinc-700-raw));
+  
+  --color-zinc-100: rgb(var(--zinc-100-raw));
+  --color-zinc-200: rgb(var(--zinc-200-raw));
+  --color-zinc-300: rgb(var(--zinc-300-raw));
+  --color-zinc-400: rgb(var(--zinc-400-raw));
+  --color-zinc-500: rgb(var(--zinc-500-raw));
+  --color-zinc-600: rgb(var(--zinc-600-raw));
 }
 
 body {
@@ -24,6 +88,7 @@ body {
   color: var(--foreground);
   font-family: var(--font-sans);
   overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Beautiful Animated Background Mesh */
@@ -35,22 +100,36 @@ body {
   bottom: 0;
   z-index: -10;
   background-image: 
-    radial-gradient(at 10% 20%, rgba(139, 92, 246, 0.08) 0px, transparent 50%),
-    radial-gradient(at 90% 10%, rgba(217, 70, 239, 0.08) 0px, transparent 50%),
-    radial-gradient(at 50% 80%, rgba(59, 130, 246, 0.06) 0px, transparent 50%);
+    radial-gradient(at 10% 20%, rgba(139, 92, 246, var(--bg-mesh-opacity)) 0px, transparent 50%),
+    radial-gradient(at 90% 10%, rgba(217, 70, 239, var(--bg-mesh-opacity)) 0px, transparent 50%),
+    radial-gradient(at 50% 80%, rgba(59, 130, 246, calc(var(--bg-mesh-opacity) * 0.75)) 0px, transparent 50%);
   background-attachment: fixed;
+}
+
+/* Theme-dependent Grid Overlay */
+.bg-grid {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
+  background-size: 32px 32px;
+  pointer-events: none;
+  z-index: -1;
+  transition: background-image 0.3s ease;
 }
 
 /* Glassmorphism panel styling */
 .glass-panel {
-  background: rgba(18, 18, 24, 0.7);
+  background: var(--glass-panel-bg);
   backdrop-filter: blur(16px) saturate(180%);
   -webkit-backdrop-filter: blur(16px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--glass-panel-border);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .glass-panel:hover {
-  border-color: rgba(255, 255, 255, 0.1);
+  border-color: var(--glass-panel-border-hover);
 }
 
 .glass-panel-glow {

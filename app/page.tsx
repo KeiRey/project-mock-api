@@ -98,6 +98,32 @@ export default function Home() {
   const [expandedColParams, setExpandedColParams] = useState<Record<number, boolean>>({});
   const [expandedSingleParams, setExpandedSingleParams] = useState<Record<number, boolean>>({});
 
+  // Theme state
+  const [theme, setTheme] = useState<"dark" | "light">("dark");
+
+  useEffect(() => {
+    const stored = localStorage.getItem("mockflow-theme") as "dark" | "light";
+    if (stored) {
+      setTheme(stored);
+      if (stored === "light") {
+        document.documentElement.classList.add("light");
+      } else {
+        document.documentElement.classList.remove("light");
+      }
+    }
+  }, []);
+
+  const toggleTheme = () => {
+    const nextTheme = theme === "dark" ? "light" : "dark";
+    setTheme(nextTheme);
+    localStorage.setItem("mockflow-theme", nextTheme);
+    if (nextTheme === "light") {
+      document.documentElement.classList.add("light");
+    } else {
+      document.documentElement.classList.remove("light");
+    }
+  };
+
   // Computed / System State
   const [origin, setOrigin] = useState("https://mockflow.vercel.app");
   const [token, setToken] = useState("");
@@ -505,12 +531,12 @@ export default function Home() {
   const urlPercentage = Math.min((urlLen / 2048) * 100, 100);
 
   return (
-    <div className="relative min-h-screen flex flex-col font-sans bg-zinc-950 text-zinc-100 overflow-hidden">
+    <div className="relative min-h-screen flex flex-col font-sans bg-zinc-950 text-zinc-100 overflow-hidden transition-colors duration-300">
       {/* Background Radial Gradients */}
       <div className="bg-mesh" />
 
       {/* Grid Pattern overlay */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.01)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.01)_1px,transparent_1px)] bg-[size:32px_32px] pointer-events-none z-[-1]" />
+      <div className="bg-grid" />
 
       {/* Header section */}
       <header className="border-b border-zinc-800 bg-zinc-950/60 backdrop-blur-md sticky top-0 z-50">
@@ -532,51 +558,73 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Navigation tabs in Header */}
-          <nav className="flex items-center gap-1 bg-zinc-900/80 border border-zinc-800 p-1 rounded-lg">
+          {/* Navigation & Theme Toggle */}
+          <div className="flex items-center gap-2">
+            <nav className="flex items-center gap-1 bg-zinc-900/80 border border-zinc-800 p-1 rounded-lg">
+              <button
+                onClick={() => setActiveTab("builder")}
+                title="Mock Builder"
+                className={`flex items-center gap-1.5 px-2.5 py-1.5 md:px-3 md:py-1.5 rounded-md text-sm font-medium transition-all duration-200 ${
+                  activeTab === "builder"
+                    ? "bg-violet-600 text-white shadow-md shadow-violet-900/20"
+                    : "text-zinc-400 hover:text-zinc-200"
+                }`}
+              >
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                </svg>
+                <span className="hidden sm:inline">Mock Builder</span>
+              </button>
+              <button
+                onClick={() => setActiveTab("echo")}
+                title="Webhook Echo"
+                className={`flex items-center gap-1.5 px-2.5 py-1.5 md:px-3 md:py-1.5 rounded-md text-sm font-medium transition-all duration-200 ${
+                  activeTab === "echo"
+                    ? "bg-violet-600 text-white shadow-md shadow-violet-900/20"
+                    : "text-zinc-400 hover:text-zinc-200"
+                }`}
+              >
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                </svg>
+                <span className="hidden sm:inline">Webhook Echo</span>
+              </button>
+              <button
+                onClick={() => setActiveTab("collection")}
+                title="Collection Builder"
+                className={`flex items-center gap-1.5 px-2.5 py-1.5 md:px-3 md:py-1.5 rounded-md text-sm font-medium transition-all duration-200 ${
+                  activeTab === "collection"
+                    ? "bg-violet-600 text-white shadow-md shadow-violet-900/20"
+                    : "text-zinc-400 hover:text-zinc-200"
+                }`}
+              >
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+                </svg>
+                <span className="hidden sm:inline">Collection Builder</span>
+              </button>
+            </nav>
+
+            {/* Theme Toggle Button */}
             <button
-              onClick={() => setActiveTab("builder")}
-              title="Mock Builder"
-              className={`flex items-center gap-1.5 px-2.5 py-1.5 md:px-3 md:py-1.5 rounded-md text-sm font-medium transition-all duration-200 ${
-                activeTab === "builder"
-                  ? "bg-violet-600 text-white shadow-md shadow-violet-900/20"
-                  : "text-zinc-400 hover:text-zinc-200"
-              }`}
+              onClick={toggleTheme}
+              className="p-2.5 rounded-lg bg-zinc-900/80 hover:bg-zinc-800 border border-zinc-800 text-zinc-400 hover:text-zinc-200 transition-all flex items-center justify-center cursor-pointer"
+              title={theme === "dark" ? "Switch to Light Mode" : "Switch to Dark Mode"}
+              type="button"
             >
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
-              </svg>
-              <span className="hidden sm:inline">Mock Builder</span>
+              {theme === "dark" ? (
+                /* Sun Icon */
+                <svg className="w-4 h-4 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
+                </svg>
+              ) : (
+                /* Moon Icon */
+                <svg className="w-4 h-4 text-violet-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                </svg>
+              )}
             </button>
-            <button
-              onClick={() => setActiveTab("echo")}
-              title="Webhook Echo"
-              className={`flex items-center gap-1.5 px-2.5 py-1.5 md:px-3 md:py-1.5 rounded-md text-sm font-medium transition-all duration-200 ${
-                activeTab === "echo"
-                  ? "bg-violet-600 text-white shadow-md shadow-violet-900/20"
-                  : "text-zinc-400 hover:text-zinc-200"
-              }`}
-            >
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
-              </svg>
-              <span className="hidden sm:inline">Webhook Echo</span>
-            </button>
-            <button
-              onClick={() => setActiveTab("collection")}
-              title="Collection Builder"
-              className={`flex items-center gap-1.5 px-2.5 py-1.5 md:px-3 md:py-1.5 rounded-md text-sm font-medium transition-all duration-200 ${
-                activeTab === "collection"
-                  ? "bg-violet-600 text-white shadow-md shadow-violet-900/20"
-                  : "text-zinc-400 hover:text-zinc-200"
-              }`}
-            >
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
-              </svg>
-              <span className="hidden sm:inline">Collection Builder</span>
-            </button>
-          </nav>
+          </div>
         </div>
       </header>
 

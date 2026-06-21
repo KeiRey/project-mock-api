@@ -62,6 +62,32 @@ export default function DocsContent() {
 
   const [copySuccess, setCopySuccess] = useState(false);
 
+  // Theme state
+  const [theme, setTheme] = useState<"dark" | "light">("dark");
+
+  useEffect(() => {
+    const stored = localStorage.getItem("mockflow-theme") as "dark" | "light";
+    if (stored) {
+      setTheme(stored);
+      if (stored === "light") {
+        document.documentElement.classList.add("light");
+      } else {
+        document.documentElement.classList.remove("light");
+      }
+    }
+  }, []);
+
+  const toggleTheme = () => {
+    const nextTheme = theme === "dark" ? "light" : "dark";
+    setTheme(nextTheme);
+    localStorage.setItem("mockflow-theme", nextTheme);
+    if (nextTheme === "light") {
+      document.documentElement.classList.add("light");
+    } else {
+      document.documentElement.classList.remove("light");
+    }
+  };
+
   // Get current active mock
   const activeMock: CollectionMock | null =
     collection && collection.mocks[selectedMockIndex] ? collection.mocks[selectedMockIndex] : null;
@@ -318,9 +344,9 @@ export default function DocsContent() {
 
   // 4. Complete Document Portal UI
   return (
-    <div className="relative min-h-screen flex flex-col bg-zinc-950 text-zinc-100 overflow-hidden font-sans">
+    <div className="relative min-h-screen flex flex-col bg-zinc-950 text-zinc-100 overflow-hidden font-sans transition-colors duration-300">
       <div className="bg-mesh" />
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.005)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.005)_1px,transparent_1px)] bg-[size:32px_32px] pointer-events-none z-[-1]" />
+      <div className="bg-grid" />
 
       {/* Header bar */}
       <header className="border-b border-zinc-900 bg-zinc-950/75 backdrop-blur-md sticky top-0 z-50">
@@ -353,6 +379,27 @@ export default function DocsContent() {
                 <span className="hidden sm:inline">Decrypted</span>
               </span>
             )}
+            
+            {/* Theme Toggle Button */}
+            <button
+              onClick={toggleTheme}
+              className="p-2.5 rounded-lg bg-zinc-900/80 hover:bg-zinc-800 border border-zinc-800 text-zinc-400 hover:text-zinc-200 transition-all flex items-center justify-center cursor-pointer"
+              title={theme === "dark" ? "Switch to Light Mode" : "Switch to Dark Mode"}
+              type="button"
+            >
+              {theme === "dark" ? (
+                /* Sun Icon */
+                <svg className="w-4 h-4 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
+                </svg>
+              ) : (
+                /* Moon Icon */
+                <svg className="w-4 h-4 text-violet-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                </svg>
+              )}
+            </button>
+
             <a
               href="/"
               title="Dashboard"
