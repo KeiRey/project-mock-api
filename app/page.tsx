@@ -526,7 +526,7 @@ export default function Home() {
               <span className="font-bold text-lg bg-gradient-to-r from-violet-400 to-fuchsia-400 bg-clip-text text-transparent">
                 MockFlow
               </span>
-              <span className="text-xs text-zinc-500 ml-2 font-mono border border-zinc-800 rounded px-1 py-0.5 bg-zinc-900/50">
+              <span className="text-xs text-zinc-500 ml-2 font-mono border border-zinc-800 rounded px-1.5 py-0.5 bg-zinc-900/50 hidden sm:inline-block">
                 Stateless V2
               </span>
             </div>
@@ -536,7 +536,8 @@ export default function Home() {
           <nav className="flex items-center gap-1 bg-zinc-900/80 border border-zinc-800 p-1 rounded-lg">
             <button
               onClick={() => setActiveTab("builder")}
-              className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-all duration-200 ${
+              title="Mock Builder"
+              className={`flex items-center gap-1.5 px-2.5 py-1.5 md:px-3 md:py-1.5 rounded-md text-sm font-medium transition-all duration-200 ${
                 activeTab === "builder"
                   ? "bg-violet-600 text-white shadow-md shadow-violet-900/20"
                   : "text-zinc-400 hover:text-zinc-200"
@@ -545,11 +546,12 @@ export default function Home() {
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
               </svg>
-              Mock Builder
+              <span className="hidden sm:inline">Mock Builder</span>
             </button>
             <button
               onClick={() => setActiveTab("echo")}
-              className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-all duration-200 ${
+              title="Webhook Echo"
+              className={`flex items-center gap-1.5 px-2.5 py-1.5 md:px-3 md:py-1.5 rounded-md text-sm font-medium transition-all duration-200 ${
                 activeTab === "echo"
                   ? "bg-violet-600 text-white shadow-md shadow-violet-900/20"
                   : "text-zinc-400 hover:text-zinc-200"
@@ -558,11 +560,12 @@ export default function Home() {
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
               </svg>
-              Webhook Echo
+              <span className="hidden sm:inline">Webhook Echo</span>
             </button>
             <button
               onClick={() => setActiveTab("collection")}
-              className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-all duration-200 ${
+              title="Collection Builder"
+              className={`flex items-center gap-1.5 px-2.5 py-1.5 md:px-3 md:py-1.5 rounded-md text-sm font-medium transition-all duration-200 ${
                 activeTab === "collection"
                   ? "bg-violet-600 text-white shadow-md shadow-violet-900/20"
                   : "text-zinc-400 hover:text-zinc-200"
@@ -571,7 +574,7 @@ export default function Home() {
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
               </svg>
-              Collection Builder
+              <span className="hidden sm:inline">Collection Builder</span>
             </button>
           </nav>
         </div>

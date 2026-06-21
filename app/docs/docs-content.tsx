@@ -335,26 +335,33 @@ export default function DocsContent() {
               <span className="font-bold text-base text-zinc-200">
                 MockFlow Portal
               </span>
-              <span className="text-[10px] text-zinc-500 font-mono border border-zinc-800/80 rounded px-1.5 py-0.5 ml-2 bg-zinc-900/40">
+              <span className="text-[10px] text-zinc-500 font-mono border border-zinc-800/80 rounded px-1.5 py-0.5 ml-2 bg-zinc-900/40 hidden sm:inline-block">
                 API Docs
               </span>
             </div>
           </div>
 
-          <div className="flex items-center gap-3 text-xs">
+          <div className="flex items-center gap-2 sm:gap-3 text-xs">
             {password && (
-              <span className="flex items-center gap-1 text-emerald-400 bg-emerald-950/40 border border-emerald-900/30 px-2.5 py-1 rounded-lg">
+              <span 
+                title="Decrypted successfully"
+                className="flex items-center gap-1 text-emerald-400 bg-emerald-950/40 border border-emerald-900/30 px-2 py-1.5 sm:px-2.5 sm:py-1 rounded-lg"
+              >
                 <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                 </svg>
-                Decrypted
+                <span className="hidden sm:inline">Decrypted</span>
               </span>
             )}
             <a
               href="/"
-              className="bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 px-3.5 py-1.5 rounded-lg text-zinc-300 transition-all font-medium"
+              title="Dashboard"
+              className="bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 p-2 md:px-3.5 md:py-1.5 rounded-lg text-zinc-300 transition-all font-medium flex items-center gap-1.5"
             >
-              Dashboard
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+              </svg>
+              <span className="hidden sm:inline">Dashboard</span>
             </a>
           </div>
         </div>
